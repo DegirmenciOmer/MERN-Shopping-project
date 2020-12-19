@@ -1,11 +1,11 @@
-const express = require("express");
-const connectDB = require("./config/db");
-const dotenv = require("dotenv");
-const colors = require("colors");
-const productRoutes = require("./routes/productRoutes");
-const errorMiddleware = require("./middleware/errorMiddleware");
+import express from "express";
+import connectDB from "./config/db.js";
+import { config } from "dotenv";
+import colors from "colors";
+import productRoutes from "./routes/productRoutes.js";
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
-dotenv.config();
+config();
 
 connectDB();
 
@@ -17,9 +17,9 @@ app.get("/", (req, res) => {
 
 app.use("/api/products", productRoutes);
 
-app.use(errorMiddleware.notFound);
+app.use(notFound);
 
-app.use(errorMiddleware.errorHandler);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

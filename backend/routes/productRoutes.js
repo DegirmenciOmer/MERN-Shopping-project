@@ -1,9 +1,12 @@
-const { json } = require("express");
-const express = require("express");
-const asyncHandler = require("express-async-handler");
-const Product = require("../models/productModel");
+import express from "express";
+import asyncHandler from "express-async-handler";
+import Product from "../models/productModel.js";
 
 const router = express.Router();
+
+//@desc     Fetch all products
+//@route     GET /api/products
+//@acces     Public
 
 router.get(
   "/",
@@ -12,6 +15,10 @@ router.get(
     res.json(products);
   })
 );
+
+//@desc     Fetch single product
+//@route     GET /api/products/:id
+//@acces     Public
 
 router.get(
   "/:id",
@@ -25,4 +32,4 @@ router.get(
   })
 );
 
-module.exports = router;
+export default router;

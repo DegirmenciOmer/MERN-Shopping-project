@@ -1,32 +1,38 @@
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const colors = require("colors");
-const users = require("./data/users");
-const products = require("./data/products");
-const Order = require("./models/orderModel");
-const Product = require("./models/productModel");
-const User = require("./models/userModel");
-const connectDB = require("./config/db");
+import mongoose from "mongoose";
+import { config } from "dotenv";
+import colors from "colors";
+import users from "./data/users.js";
+import { map } from "./data/products.js";
+import { deleteMany } from "./models/orderModel.js";
+import {
+  deleteMany as _deleteMany,
+  insertMany,
+} from "./models/productModel.js";
+import {
+  deleteMany as __deleteMany,
+  insertMany as _insertMany,
+} from "./models/userModel.js";
+import connectDB from "./config/db.js";
 
-dotenv.config();
+config();
 
 connectDB();
 
 const importData = async () => {
   try {
-    await Order.deleteMany();
-    await Product.deleteMany();
-    await User.deleteMany();
+    await deleteMany();
+    await _deleteMany();
+    await __deleteMany();
 
-    const createdUsers = await User.insertMany(users);
+    const createdUsers = await _insertMany(users);
 
     const adminUser = createdUsers[0]._id;
 
-    const sampleProducts = products.map((product) => {
+    const sampleProducts = map((product) => {
       return { ...product, user: adminUser };
     });
 
-    await Product.insertMany(sampleProducts);
+    await insertMany(sampleProducts);
 
     console.log("Data imported!".green.inverse);
     process.exit();
@@ -38,9 +44,9 @@ const importData = async () => {
 
 const destroyData = async () => {
   try {
-    await Order.deleteMany();
-    await Product.deleteMany();
-    await User.deleteMany();
+    await deleteMany();
+    await _deleteMany();
+    await __deleteMany();
 
     console.log("Data destroyed!".red.inverse);
     process.exit();
