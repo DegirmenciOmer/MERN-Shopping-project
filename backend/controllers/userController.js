@@ -1,4 +1,3 @@
-import expressAsyncHandler from "express-async-handler";
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
@@ -32,7 +31,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   const userExists = await User.findOne({ email });
   if (userExists) {
-    res.send(400);
+    res.status(400);
     throw new Error("User already exists.");
   }
   const user = await User.create({
@@ -42,7 +41,7 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    res.send(201).json({
+    res.status(201).json({
       //201 = something is created
       _id: user._id,
       name: user.name,
@@ -75,4 +74,27 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, registerUser, getUserProfile };
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+    const updatedUser = await user.save();
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+export { authUser, registerUser, getUserProfile, updateUserProfile };
