@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const orderSchema = Schema(
   {
@@ -77,5 +77,5 @@ const orderSchema = Schema(
   }
 );
 
-const Order = model("Order", orderSchema);
+const Order = mongoose.model("Order", orderSchema);
 export default Order;

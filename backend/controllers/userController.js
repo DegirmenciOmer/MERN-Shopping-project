@@ -11,13 +11,12 @@ const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user && (await user.matchPassword(password))) {
-    const { _id, name, email, isAdmin } = user;
     res.json({
-      _id: _id,
-      name: name,
-      email: email,
-      isAdmin: isAdmin,
-      token: generateToken(_id),
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateToken(user._id),
     });
   } else {
     res.status(401);
@@ -25,4 +24,24 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser };
+//@desc      Get user profile
+//@route     GET /api/users/profile
+//@acces     Private
+
+const getUserProfile = asyncHandler(async (req, res) => {
+  res.send("success");
+  const user = await User.findById(req.user._id);
+  //   if (user) {
+  //     res.json({
+  //       _id: user._id,
+  //       name: user.name,
+  //       email: user.email,
+  //       isAdmin: user.isAdmin,
+  //     });
+  //   } else {
+  //     res.status(404);
+  //     throw new Error("User not found");
+  //   }
+});
+
+export { authUser, getUserProfile };
