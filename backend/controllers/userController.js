@@ -74,6 +74,10 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+//@desc      Update user profile
+//@route     PUT /api/users/profile
+//@acces     Private
+
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
