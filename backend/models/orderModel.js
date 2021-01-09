@@ -1,9 +1,9 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
-const orderSchema = Schema(
+const orderSchema = mongoose.Schema(
   {
     user: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
@@ -14,21 +14,17 @@ const orderSchema = Schema(
         image: { type: String, required: true },
         price: { type: Number, required: true },
         product: {
-          type: Schema.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           required: true,
           ref: "Product",
         },
       },
     ],
-    shippingAdress: {
+    shippingAddress: {
       address: { type: String, required: true },
       city: { type: String, required: true },
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
-    },
-    paymentMethod: {
-      type: String,
-      required: true,
     },
     paymentMethod: {
       type: String,
@@ -78,4 +74,5 @@ const orderSchema = Schema(
 );
 
 const Order = mongoose.model("Order", orderSchema);
+
 export default Order;
