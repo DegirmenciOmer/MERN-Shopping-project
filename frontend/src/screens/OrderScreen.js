@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { PayPalButton } from "react-paypal-button-v2";
+import { Link } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -10,6 +11,8 @@ import { getOrderDetails, payOrder } from "../actions/orderActions";
 import { ORDER_PAY_RESET } from "../constants/orderConstants";
 
 const OrderScreen = ({ match }) => {
+  const [sdkReady, setSdkReady] = useState(false);
+
   const orderId = match.params.id;
 
   const [sdkReady, setSdkReady] = useState(false);
@@ -23,7 +26,7 @@ const OrderScreen = ({ match }) => {
   const { loading: loadingPay, success: successPay } = orderPay;
 
   if (!loading) {
-    //   Calculate prices
+    //Calculate prices
     const addDecimals = (num) => {
       return (Math.round(num * 100) / 100).toFixed(2);
     };
@@ -56,7 +59,7 @@ const OrderScreen = ({ match }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, successPay, order]);
+  }, [order, orderId, dispatch, successPay]);
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult);
@@ -82,8 +85,9 @@ const OrderScreen = ({ match }) => {
                 <strong>Email: </strong>{" "}
                 <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
               </p>
+
               <p>
-                <strong>Address:</strong>
+                <strong>Address: </strong>
                 {order.shippingAddress.address}, {order.shippingAddress.city}{" "}
                 {order.shippingAddress.postalCode},{" "}
                 {order.shippingAddress.country}
@@ -182,7 +186,7 @@ const OrderScreen = ({ match }) => {
                     <PayPalButton
                       amount={order.totalPrice}
                       onSuccess={successPaymentHandler}
-                    ></PayPalButton>
+                    />
                   )}
                 </ListGroup.Item>
               )}

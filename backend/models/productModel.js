@@ -1,83 +1,64 @@
 import mongoose from "mongoose";
-//import { timestamp } from 'rxjs/operators';
 
 const reviewSchema = mongoose.Schema(
   {
-    name: {
-      type: String,
-      requered: true,
-    },
-    rating: {
-      type: Number,
-      requered: true,
-    },
-    comment: {
-      type: String,
-      requered: true,
-    },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "User",
-    },
+    name: { type: String, required: true },
+    rating: { type: Number, required: true },
+    comment: { type: String, required: true },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 const productSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      requered: true,
+      required: true,
       ref: "User",
     },
     name: {
       type: String,
-      requered: true,
+      required: true,
     },
     image: {
       type: String,
-      requered: true,
+      required: true,
     },
     brand: {
       type: String,
-      requered: true,
+      required: true,
     },
     category: {
       type: String,
-      requered: true,
+      required: true,
     },
     description: {
       type: String,
-      requered: true,
+      required: true,
     },
     reviews: [reviewSchema],
     rating: {
       type: Number,
-      requered: true,
+      required: true,
       default: 0,
     },
     numReviews: {
       type: Number,
-      requered: true,
+      required: true,
       default: 0,
     },
     price: {
       type: Number,
-      requered: true,
+      required: true,
       default: 0,
     },
     countInStock: {
       type: Number,
-      requered: true,
+      required: true,
       default: 0,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 const Product = mongoose.model("Product", productSchema);

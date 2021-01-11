@@ -1,9 +1,7 @@
-import Order from "../models/orderModel.js";
 import asyncHandler from "express-async-handler";
+import Order from "../models/orderModel.js";
 
-// @desc Create new order
-// @route POST /api/orders
-// @access private
+// Create new order: POST /api/orders (private)
 const addOrderItems = asyncHandler(async (req, res) => {
   const {
     orderItems,
@@ -17,34 +15,28 @@ const addOrderItems = asyncHandler(async (req, res) => {
   if (orderItems && orderItems.length === 0) {
     res.status(400);
     throw new Error("No order items");
-    return;
   } else {
     const order = new Order({
       orderItems,
-      user: req.user._id,
       shippingAddress,
       paymentMethod,
       itemsPrice,
       taxPrice,
       shippingPrice,
       totalPrice,
+      user: req.user._id,
     });
-
     const createdOrder = await order.save();
-
     res.status(201).json(createdOrder);
   }
 });
 
-// @desc    Get order by ID
-// @route   GET /api/orders/:id
-// @access  Private
+// Get order by ID: GET /api/orders/:id (private)
 const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
     "user",
     "name email"
   );
-
   if (order) {
     res.json(order);
   } else {
@@ -53,12 +45,9 @@ const getOrderById = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update order to paid
-// @route   GET /api/orders/:id/pay
-// @access  Private
+// Update order to paid: PUT /api/orders/:id/pay (private)
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
-
   if (order) {
     order.isPaid = true;
     order.paidAt = Date.now();
@@ -68,7 +57,6 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
       update_time: req.body.update_time,
       email_address: req.body.payer.email_address,
     };
-
     const updatedOrder = await order.save();
     res.json(updatedOrder);
   } else {
@@ -77,9 +65,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get logged in user order
-// @route   GET /api/orders/myorder
-// @access  Private
+// Get logged in user orders: GET /api/orders/myorders (private)
 const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
 
