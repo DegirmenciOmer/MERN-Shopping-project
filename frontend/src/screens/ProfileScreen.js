@@ -4,15 +4,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-<<<<<<< HEAD
-import { getUsersDetails, updateUserProfile } from "../actions/userActions";
-import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
+import { updateUserProfile } from "../actions/userActions";
 import { listMyOrders } from "../actions/orderActions";
-import { LinkContainer } from "react-router-bootstrap";
-=======
-import { getUserDetails, updateUserProfile } from "../actions/userActions";
-import { listMyOrders } from "../actions/orderActions";
->>>>>>> fixed10
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState("");
@@ -40,12 +33,7 @@ const ProfileScreen = ({ location, history }) => {
       history.push("/login");
     } else {
       if (!user.name) {
-<<<<<<< HEAD
-        dispatch({ type: USER_UPDATE_PROFILE_RESET });
-        dispatch(getUsersDetails("profile"));
-=======
         dispatch(getUserDetails("profile"));
->>>>>>> fixed10
         dispatch(listMyOrders());
       } else {
         setName(user.name);
@@ -67,49 +55,49 @@ const ProfileScreen = ({ location, history }) => {
     <Row>
       <Col md={3}>
         <h2>User Profile</h2>
-        {message && <Message variant="danger">{message}</Message>}
-        {error && <Message variant="danger">{error}</Message>}
-        {success && <Message variant="success">Profile Updated</Message>}
+        {message && <Message variant='danger'>{message}</Message>}
+        {error && <Message variant='danger'>{error}</Message>}
+        {success && <Message variant='success'>Profile Updated</Message>}
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>
-          <Form.Group controlId="name">
+          <Form.Group controlId='name'>
             <Form.Label>Name</Form.Label>
             <Form.Control
-              type="name"
-              placeholder="Enter name"
+              type='name'
+              placeholder='Enter name'
               value={name}
               onChange={(e) => setName(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlId="email">
+          <Form.Group controlId='email'>
             <Form.Label>Email Address</Form.Label>
             <Form.Control
-              type="email"
-              placeholder="Enter email"
+              type='email'
+              placeholder='Enter email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlId="password">
+          <Form.Group controlId='password'>
             <Form.Label>Password</Form.Label>
             <Form.Control
-              type="password"
-              placeholder="Enter password"
+              type='password'
+              placeholder='Enter password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlId="confirmPassword">
+          <Form.Group controlId='confirmPassword'>
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
-              type="password"
-              placeholder="Confirm password"
+              type='password'
+              placeholder='Confirm password'
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             ></Form.Control>
           </Form.Group>
 
-          <Button type="submit" variant="primary">
+          <Button type='submit' variant='primary'>
             Update
           </Button>
         </Form>
@@ -119,15 +107,9 @@ const ProfileScreen = ({ location, history }) => {
         {loadingOrders ? (
           <Loader />
         ) : errorOrders ? (
-<<<<<<< HEAD
           <Message variant='danger'>{errorOrders}</Message>
         ) : (
           <Table striped bordered hover responsive className='table-sm'>
-=======
-          <Message variant="danger">{errorOrders}</Message>
-        ) : (
-          <Table striped bordered hover responsive className="table-sm">
->>>>>>> fixed10
             <thead>
               <tr>
                 <th>ID</th>
@@ -146,35 +128,21 @@ const ProfileScreen = ({ location, history }) => {
                   <td>{order.totalPrice}</td>
                   <td>
                     {order.isPaid ? (
-<<<<<<< HEAD
-                      order.paidAt
-                    ) : (
-                      <i className='fas fa-times' style={{ color: "red" }}></i>
-=======
                       order.paidAt.substring(0, 10)
                     ) : (
-                      <i className="fas fa-times" style={{ color: "red" }}></i>
->>>>>>> fixed10
+                      <i className='fas fa-times' style={{ color: "red" }}></i>
                     )}
                   </td>
                   <td>
                     {order.isDelivered ? (
                       order.deliveredAt.substring(0, 10)
                     ) : (
-<<<<<<< HEAD
                       <i className='fas fa-times' style={{ color: "red" }}></i>
-=======
-                      <i className="fas fa-times" style={{ color: "red" }}></i>
->>>>>>> fixed10
                     )}
                   </td>
                   <td>
                     <LinkContainer to={`/order/${order._id}`}>
-<<<<<<< HEAD
                       <Button className='btn-sm' variant='light'>
-=======
-                      <Button className="btn-sm" variant="light">
->>>>>>> fixed10
                         Details
                       </Button>
                     </LinkContainer>
