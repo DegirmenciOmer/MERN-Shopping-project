@@ -1,40 +1,34 @@
 import mongoose from "mongoose";
-import { config } from "dotenv";
+import dotenv from "dotenv";
 import colors from "colors";
 import users from "./data/users.js";
-import { map } from "./data/products.js";
-import { deleteMany } from "./models/orderModel.js";
-import {
-  deleteMany as _deleteMany,
-  insertMany,
-} from "./models/productModel.js";
-import {
-  deleteMany as __deleteMany,
-  insertMany as _insertMany,
-} from "./models/userModel.js";
+import { products } from "./data/products.js";
+import User from "./models/userModel.js";
+import Product from "./models/productModel.js";
+import Order from "./models/orderModel.js";
 import connectDB from "./config/db.js";
 
-config();
+dotenv.config();
 
 connectDB();
 
 const importData = async () => {
   try {
-    await deleteMany();
-    await _deleteMany();
-    await __deleteMany();
+    await Order.deleteMany();
+    await Product.deleteMany();
+    await User.deleteMany();
 
-    const createdUsers = await _insertMany(users);
+    const createdUsers = await User.insertMany(users);
 
     const adminUser = createdUsers[0]._id;
 
-    const sampleProducts = map((product) => {
+    const sampleProducts = products.map((product) => {
       return { ...product, user: adminUser };
     });
 
-    await insertMany(sampleProducts);
+    await Product.insertMany(sampleProducts);
 
-    console.log("Data imported!".green.inverse);
+    console.log("Data Imported!".green.inverse);
     process.exit();
   } catch (error) {
     console.error(`${error}`.red.inverse);
@@ -44,11 +38,11 @@ const importData = async () => {
 
 const destroyData = async () => {
   try {
-    await deleteMany();
-    await _deleteMany();
-    await __deleteMany();
+    await Order.deleteMany();
+    await Product.deleteMany();
+    await User.deleteMany();
 
-    console.log("Data destroyed!".red.inverse);
+    console.log("Data Destroyed!".red.inverse);
     process.exit();
   } catch (error) {
     console.error(`${error}`.red.inverse);

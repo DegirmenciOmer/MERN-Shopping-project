@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { updateUserProfile, getUsersDetails } from "../actions/userActions";
+import { updateUserProfile, getUserDetails } from "../actions/userActions";
 import { listMyOrders } from "../actions/orderActions";
 
 const ProfileScreen = ({ location, history }) => {
@@ -33,7 +33,7 @@ const ProfileScreen = ({ location, history }) => {
       history.push("/login");
     } else {
       if (!user.name) {
-        dispatch(getUsersDetails("profile"));
+        dispatch(getUserDetails("profile"));
         dispatch(listMyOrders());
       } else {
         setName(user.name);
